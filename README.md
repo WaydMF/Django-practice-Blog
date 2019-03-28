@@ -1,1 +1,1 @@
-# Django-practice-Blog-
+# Django-practice-Blog

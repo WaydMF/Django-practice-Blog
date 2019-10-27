@@ -11,10 +11,19 @@ from .forms import TagForm, PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 
+from django.db.models import Q
+
 # Create your views here.
 
+
 def posts_list(request):
-    posts = Post.objects.all()
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        posts = Post.objects.filter(Q(title__icontains=search_query) | Q(body__icontains=search_query))
+    else:
+        posts = Post.objects.all()
+
     paginator = Paginator(posts, 3)
 
     page_number = request.GET.get('page', 1)
@@ -52,17 +61,20 @@ class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     template = 'blog/post_create_form.html'
     raise_exception = True
 
+
 class PostUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
     model = Post
     model_form = PostForm
     template = 'blog/post_update_form.html'
     raise_exception = True
 
+
 class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Post
     template = 'blog/post_delete_form.html'
     redirect_url = 'posts_list_url'
     raise_exception = True
+
 
 class TagDetail(ObjectDetailMixin, View):
     model = Tag
@@ -74,11 +86,13 @@ class TagCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     template = 'blog/tag_create.html'
     raise_exception = True
 
+
 class TagUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
     model = Tag
     model_form = TagForm
     template = 'blog/tag_update_form.html'
     raise_exception = True
+
 
 class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Tag

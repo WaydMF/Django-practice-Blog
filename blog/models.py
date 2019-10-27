@@ -4,10 +4,12 @@ from django.shortcuts import reverse
 from django.utils.text import slugify
 from time import time
 
+
 def gen_slug(s):
 	new_slug = slugify(s, allow_unicode=True)
 	return f'{new_slug}-{str(int(time()))}'
 # Create your models here.
+
 
 class Post(models.Model):
 	"""docstring for Post"""
@@ -36,6 +38,7 @@ class Post(models.Model):
 
 	class Meta:
 		ordering = ['-date_pub']
+
 
 class Tag(models.Model):
 	"""docstring for Tag"""

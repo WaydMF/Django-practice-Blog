@@ -8,10 +8,12 @@ from .models import *
 class ObjectDetailMixin:
     model = None
     template = None
+
     def get(self, request, slug):
         obj = get_object_or_404(self.model, slug__iexact=slug)
         return render(request, self.template, context={self.model.__name__.lower(): obj, 'admin_object': obj,
                                                        'detail': True})
+
 
 class ObjectCreateMixin:
     model_form = None
@@ -28,6 +30,7 @@ class ObjectCreateMixin:
             new_obj = bound_form.save()
             return redirect(new_obj)
         return render(request, self.template, context={'form': bound_form})
+
 
 class ObjectUpdateMixin:
     model = None
@@ -47,6 +50,7 @@ class ObjectUpdateMixin:
             new_obj = bound_form.save()
             return redirect(new_obj)
         return render(request, self.template, context={'form': bound_form, self.model.__name__.lower(): obj})
+
 
 class ObjectDeleteMixin:
     model = None

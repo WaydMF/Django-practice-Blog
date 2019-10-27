@@ -2,6 +2,7 @@ from django import forms
 from .models import Tag, Post
 from django.core.exceptions import ValidationError
 
+
 class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
@@ -11,7 +12,6 @@ class TagForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'slug': forms.TextInput(attrs={'class': 'form-control'}),
         }
-    
 
     def clean_slug(self):
         new_slug = self.cleaned_data['slug'].lower()
